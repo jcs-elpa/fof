@@ -6,7 +6,7 @@
 ;; Maintainer: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; URL: https://github.com/jcs-elpa/fof
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "28.1"))
+;; Package-Requires: ((emacs "28.1") (ffpc "0.1.0"))
 ;; Keywords: tools
 
 ;; This file is not part of GNU Emacs.
@@ -33,6 +33,8 @@
 
 (require 'find-file)
 
+(require 'ffpc)
+
 (defgroup fof nil
   "Default configuration for `ff-find-other-file'."
   :prefix "fof-"
@@ -42,23 +44,27 @@
 (defcustom fof-file-alist
   (append
    cc-other-file-alist
-   `(;; aspx
-     ("\\.aspx$"    (".aspx.cs"))
-     ("\\.aspx.cs$" (".aspx"))
-     ;; coffee
-     ("\\.coffee$" (".js"))
+   ;; aspx
+   `(("\\.aspx$"    (".aspx.cs"))
+     ("\\.aspx.cs$" (".aspx")))
+   ;; coffee
+   `(("\\.coffee$" (".js"))
      ("\\.js$"     (".coffee"))))
   "Default for `ff-other-file-alist'."
   :type 'alist
   :group 'fof)
 
-
+(defun fof--project-dirs ()
+  "Return a list of project directories."
+  (ffpc-directories-ignored-dir (or (ignore-errors (project-root (project-current)))
+                                    default-directory)))
 
 ;;;###autoload
 (defun fof ()
   "Find corresponding file to current buffer."
   (interactive)
-  (let ((ff-other-file-alist fof-file-alist))
+  (let ((ff-other-file-alist fof-file-alist)
+        (ff-search-directories (fof--project-dirs)))
     (call-interactively #'ff-find-other-file)))
 
 ;;;###autoload
