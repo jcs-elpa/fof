@@ -8,7 +8,8 @@
 
 ## 🔨 Usage
 
-WIP
+* `M-x fof`
+* `M-x fof-other-window`
 
 ## Contribute
 
