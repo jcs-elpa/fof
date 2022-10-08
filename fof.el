@@ -6,7 +6,7 @@
 ;; Maintainer: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; URL: https://github.com/jcs-elpa/fof
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "26.1"))
+;; Package-Requires: ((emacs "28.1"))
 ;; Keywords: tools
 
 ;; This file is not part of GNU Emacs.
@@ -31,6 +31,7 @@
 
 ;;; Code:
 
+(require 'find-file)
 
 (defgroup fof nil
   "Default configuration for `ff-find-other-file'."
@@ -39,25 +40,19 @@
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/fof"))
 
 (defcustom fof-file-alist
-  '(;; C
-    ("\\.h$"   (".c" ".cpp" ".cin" ".m"))
-    ("\\.c$"   (".h" ".hpp" ".hin"))
-    ;; C++
-    ("\\.hpp$" (".cpp" ".c" ".cin" ".m"))
-    ("\\.cpp$" (".hpp" ".h" ".hin"))
-    ("\\.hin$" (".cin" ".c" ".cpp" ".m"))
-    ("\\.cin$" (".hin" ".h" ".hpp"))
-    ;; Objective-C
-    ("\\.m$"   (".h" ".hpp" ".hin"))
-    ;; aspx
-    ("\\.aspx$"    (".aspx.cs"))
-    ("\\.aspx.cs$" (".aspx"))
-    ;; coffee
-    ("\\.coffee$" (".js"))
-    ("\\.js$"     (".coffee")))
+  (append
+   cc-other-file-alist
+   `(;; aspx
+     ("\\.aspx$"    (".aspx.cs"))
+     ("\\.aspx.cs$" (".aspx"))
+     ;; coffee
+     ("\\.coffee$" (".js"))
+     ("\\.js$"     (".coffee"))))
   "Default for `ff-other-file-alist'."
   :type 'alist
   :group 'fof)
+
+
 
 ;;;###autoload
 (defun fof ()
