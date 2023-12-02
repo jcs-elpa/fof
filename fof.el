@@ -54,10 +54,15 @@
   :type 'alist
   :group 'fof)
 
+(defun fof--root ()
+  "Return current root."
+  (or (ignore-errors (project-root (project-current)))
+      default-directory))
+
 (defun fof--project-dirs ()
   "Return a list of project directories."
-  (ffpc-directories-ignored-dir (or (ignore-errors (project-root (project-current)))
-                                    default-directory)))
+  (append (ffpc-directories-ignored-dir (fof--root))
+          (list (fof--root))))
 
 ;;;###autoload
 (defun fof ()
