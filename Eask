@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "fof"
          "0.1.0"
          "Default configuration for `ff-find-other-file'")
